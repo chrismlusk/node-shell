@@ -2,20 +2,31 @@ const pwd = require('./pwd');
 const ls = require('./ls');
 const cat = require('./cat');
 
-process.stdout.write('prompt > ');
+const prompt = data => {
+  process.stdout.write(data + '\n');
+  process.stdout.write('prompt > ');
+}
 
-process.stdin.on('data', (data) => {
-	const cmd = data.toString().trim();
-	const regex = /^cat\b/g;
+prompt('Welcome to Node Shell');
 
-	if(cmd === 'pwd') {
-		// console.log(pwd);
-		pwd();
-	}
-	else if(cmd === 'ls') {
-		ls();
-	}
-	else if(cmd.match(regex)) {
-		cat(cmd);
-	}
+process.stdin.on('data', data => {
+  const entry = data.toString().trim();
+  const [cmd, args] = entry.split(' ');
+
+  switch (cmd) {
+    case 'pwd':
+      pwd(prompt);
+      break;
+
+    case 'ls':
+      ls(prompt);
+      break;
+
+    case 'cat':
+      cat(args, prompt);
+      break;
+
+    default:
+      prompt(`-node-shell: ${cmd}: command not found`);
+  }
 });
