@@ -5,7 +5,7 @@ const cat = require('./cat');
 const prompt = data => {
   process.stdout.write(data + '\n');
   process.stdout.write('prompt > ');
-}
+};
 
 prompt('Welcome to Node Shell');
 
